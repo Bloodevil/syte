@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import requests
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.template import Context, loader
 from django.http import HttpResponse, HttpResponseServerError, HttpResponseNotFound
 from django.conf import settings
@@ -21,9 +21,13 @@ def page_not_found_error(request, template_name='404.html'):
     return HttpResponseNotFound(t.render(Context(d)))
 
 
-def home(request):
-    return render(request, 'index.html', {})
+def home(request, blog_name='dev'):
+    #return redirect('/web')
+    return render(request, 'index.html', {'blog_name':blog_name})
 
+def index(request):
+    return render(request, 'index.html', {'blog_platform':'other',
+                                        'wp_blog_url':'/web'})
 
 def rss(request):
     r = requests.get('{0}'.format(settings.RSS_FEED_URL))

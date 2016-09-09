@@ -70,8 +70,8 @@ function renderBlogPosts(posts) {
      });
 }
 
-function fetchTumblrBlogPosts(offset, tag) {
-  var blog_fetch_url = '/blog.json?o=' + offset;
+function fetchTumblrBlogPosts(offset, blog, tag) {
+  var blog_fetch_url = '/blog.json/' + blog + '?o=' + offset;
 
   if (tag)
       blog_fetch_url = '/tags/' + tag + '/?o=' + offset;
@@ -125,13 +125,13 @@ function fetchWordpressBlogPosts(offset, tag) {
  * @param tag String Optional argument to specify to load posts with a certain tag.
  * @param platform String Optional argument to specify which blog platform to fetch from. Defaults to 'tumblr'.
  */
-function fetchBlogPosts(offset, tag, platform) {
+function fetchBlogPosts(offset, blog, tag, platform) {
   if (platform === 'wordpress') {
       fetchWordpressBlogPosts(offset, tag);
   }
   else {
       // set default platform as Tumblr
-      fetchTumblrBlogPosts(offset, tag);
+      fetchTumblrBlogPosts(offset, blog, tag);
   }
 }
 

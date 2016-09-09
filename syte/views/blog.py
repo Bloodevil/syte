@@ -33,18 +33,24 @@ def convertWordpressResponse(post):
         post['type'] = 'text'
 
 
-def blog(request):
+def blog(request, blog_url=None):
     offset = request.GET.get('o', 0)
+    tumblr_api_key = settings.TUMBLR_API_KEY
+    if not blog_url:
+        tumblr_api_url = settings.TUMBLR_API_URL
+    else:
+        tumblr_api_url = 'http://api.tumblr.com/v2/blog/{0}'.format(blog_url+'.'+settings.TUMBLR_BLOG_URL)
     r = requests.get('{0}/posts?api_key={1}&offset={2}'.format(
-        settings.TUMBLR_API_URL, settings.TUMBLR_API_KEY, offset))
+        tumblr_api_url, tumblr_api_key, offset))
     return HttpResponse(content=r.text, status=r.status_code,
                         content_type=r.headers['content-type'])
 
 
-def blog_post(request, post_id):
+def blog_post(request, blog_name=None, post_id=None):
     if settings.BLOG_PLATFORM == 'tumblr':
+        tumblr_api_url = 'http://api.tumblr.com/v2/blog/{0}'.format(blog_name+'.'+settings.TUMBLR_BLOG_URL)
         r = requests.get('{0}/posts?api_key={1}&id={2}'.format(
-            settings.TUMBLR_API_URL, settings.TUMBLR_API_KEY, post_id))
+            tumblr_api_url, settings.TUMBLR_API_KEY, post_id))
 
         if r.status_code == 200:
             post_response = r.json().get('response', {})

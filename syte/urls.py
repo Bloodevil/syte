@@ -7,11 +7,13 @@ handler404 = 'syte.views.home.page_not_found_error'
 handler500 = 'syte.views.home.server_error'
 
 urlpatterns = patterns('',
-    url(r'^post/(?P<post_id>\w+)/?$', 'syte.views.blog.blog_post'),
+    url(r'^post/(?P<blog_name>\w+)/(?P<post_id>\w+)/?$', 'syte.views.blog.blog_post'),
     url(r'^tags/(?P<tag_slug>[\s\w\d-]+)/?$', 'syte.views.blog.blog_tags'),
     url(r'^blog.json/?$', 'syte.views.blog.blog'),
+    url(r'^blog.json/(?P<blog_url>\w+)/?$', 'syte.views.blog.blog'),
     url(r'^about/?$', 'syte.views.home.home'),
     url(r'^rss/?$', 'syte.views.home.rss'),
+    url(r'^home/(?P<blog_name>\w+)?$', 'syte.views.home.home'),
     url(r'^/?$', 'syte.views.home.home'),
 )
 
